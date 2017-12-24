@@ -1,24 +1,15 @@
+#include <GL/glut.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-#include <GL/glut.h>
 #include "hoop.h"
+#include "ball.h"
 
-
-
-const static float PI = 3.141592653589793;
 static int animation_active;
 static float rotation_speed;
-static float x_curr;
-static float y_curr;
-static float v_x;
-static float v_y;
+static const float g = 0.5;
 static float time;
 static float hoop_position;
-
-static float angle = 45;
-static const float g = 0.5;
-static int backboardFlag;
 
 
 /* Callback functions */ 
@@ -41,8 +32,9 @@ int main(int argc , char **argv){
     glutCreateWindow("ShootIT");
     
     hoop_position = -50;
-    x_curr = 10;
-    y_curr = 0;
+    
+    setBackboardFlag(0);
+    initBallPosition(1,-20);
     time = 0;
     
     
@@ -82,9 +74,7 @@ static void on_display(void){
     /* Clear buffers */ 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-    
-    float ball_rotation = 0;
-    
+
     /* Initialize Modlview and LookAt */
 
     glMatrixMode(GL_MODELVIEW);
@@ -92,19 +82,14 @@ static void on_display(void){
     gluLookAt(0,0,100,0,0,0,0,1,0);
     
     
+    
+    
     /* Basketball */
     
+    draw_ball(x_curr , y_curr ,rotation_speed);
     
-    ball_rotation = 10 * rotation_speed;
     
-    glPushMatrix();
-        glTranslatef(x_curr, y_curr, 0);
-        glRotatef(ball_rotation,0,0,1);
-        glColor3f(1, 0.5, 0);
-        glutSolidSphere(3,10,10);
-    glPopMatrix();
     
-
     /* draw hoop */
     glTranslatef(-50,-10,0); 
     draw_hoop();
@@ -121,30 +106,19 @@ static void on_timer(int value){
         return;
     }
     
-    /* Update rotation */
-    rotation_speed += 5;
 
     /* update coordinates of ball */
+    rotation_speed += 30;
+    time += 0.65;
+    updateBallPosition(time);
     
-    time += 0.75;
-    float angleDeg = 45* PI /180.0;
     
-    if(!backboardFlag){
-        v_x = (-4 * cos(angleDeg));
-    }
-    else{
-        v_x = (4 * cos(angleDeg));
-    }
-        
-    v_y =  (7 * sin(angleDeg) - g*time);
-    
-    x_curr += v_x;
-    y_curr += v_y;
+    /* check backboard collision */
     
     if(x_curr <= hoop_position+5 && y_curr > 0 && y_curr < 20){
-       backboardFlag = 1;
-       printf("%f" , y_curr);
+       setBackboardFlag(1);
     }
+    
     
     glutPostRedisplay();
     
@@ -163,7 +137,6 @@ static void on_keyboard(unsigned char key, int mouse_x, int mouse_y ){
         case 'A':
             if(!animation_active){
                 animation_active = 1;
-                backboardFlag = 0;
                 glutTimerFunc(60,on_timer,0);
             }
             break;
