@@ -1,13 +1,24 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 #include <GL/glut.h>
 #include "hoop.h"
 
 
+
+const static float PI = 3.141592653589793;
 static int animation_active;
 static float rotation_speed;
-static float teleport_x;
-static float teleport_y;
+static float x_curr;
+static float y_curr;
+static float v_x;
+static float v_y;
+static float time;
+static float hoop_position;
+
+static float angle = 45;
+static const float g = 0.5;
+static int backboardFlag;
 
 
 /* Callback functions */ 
@@ -17,8 +28,6 @@ static void on_reshape(int width, int height);
 static void on_timer(int value);
 static void on_display(void);
 static void on_mouse(int button, int state,int x, int y);
-
-
 
 
 int main(int argc , char **argv){
@@ -31,17 +40,18 @@ int main(int argc , char **argv){
     glutInitWindowPosition(0,0);
     glutCreateWindow("ShootIT");
     
+    hoop_position = -50;
+    x_curr = 10;
+    y_curr = 0;
+    time = 0;
+    
     
     glutDisplayFunc(on_display);
     glutReshapeFunc(on_reshape);
     glutKeyboardFunc(on_keyboard);
     glutMouseFunc(on_mouse);
-    /*glutTimerFunc(60,on_timer,0); */
     
-    rotation_speed = 0;
-    animation_active = 0;
-    teleport_x = 0;
-    teleport_y = 0;
+   
     
     glClearColor(1,1,1,0);
     glEnable(GL_DEPTH_TEST);
@@ -88,6 +98,7 @@ static void on_display(void){
     ball_rotation = 10 * rotation_speed;
     
     glPushMatrix();
+        glTranslatef(x_curr, y_curr, 0);
         glRotatef(ball_rotation,0,0,1);
         glColor3f(1, 0.5, 0);
         glutSolidSphere(3,10,10);
@@ -95,7 +106,7 @@ static void on_display(void){
     
 
     /* draw hoop */
-    glTranslatef(-50,0,0); 
+    glTranslatef(-50,-10,0); 
     draw_hoop();
 
     glutSwapBuffers();
@@ -113,6 +124,27 @@ static void on_timer(int value){
     /* Update rotation */
     rotation_speed += 5;
 
+    /* update coordinates of ball */
+    
+    time += 0.75;
+    float angleDeg = 45* PI /180.0;
+    
+    if(!backboardFlag){
+        v_x = (-4 * cos(angleDeg));
+    }
+    else{
+        v_x = (4 * cos(angleDeg));
+    }
+        
+    v_y =  (7 * sin(angleDeg) - g*time);
+    
+    x_curr += v_x;
+    y_curr += v_y;
+    
+    if(x_curr <= hoop_position+5 && y_curr > 0 && y_curr < 20){
+       backboardFlag = 1;
+       printf("%f" , y_curr);
+    }
     
     glutPostRedisplay();
     
@@ -131,6 +163,7 @@ static void on_keyboard(unsigned char key, int mouse_x, int mouse_y ){
         case 'A':
             if(!animation_active){
                 animation_active = 1;
+                backboardFlag = 0;
                 glutTimerFunc(60,on_timer,0);
             }
             break;
@@ -151,11 +184,7 @@ static void on_mouse(int button, int state,int x, int y){
     switch(button){
         case GLUT_LEFT_BUTTON:
             if(state == GLUT_DOWN){
-                printf("x :%d\n", x-400 );
-                printf("y :%d\n", y-300 );
-                teleport_x = x-400;
-                teleport_y = y-300;
-                animation_active = 1;
+              
                 glutTimerFunc(60,on_timer,0);
 
             }
