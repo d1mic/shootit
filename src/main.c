@@ -12,6 +12,7 @@ static const float g = 0.5;
 static float timePassed;
 static float angle;
 static float lookAngle;
+static float lightSwitch;
 
 /* Callback functions */ 
 
@@ -21,6 +22,7 @@ static void on_timer(int value);
 static void on_display(void);
 static void on_mouse(int button, int state,int x, int y);
 static void on_restart(void);
+static void setUpLight(void);
 
 
 int main(int argc , char **argv){
@@ -34,6 +36,7 @@ int main(int argc , char **argv){
     glutCreateWindow("ShootIT");
     
     lookAngle = 90 * PI/180;
+    lightSwitch = 0;
     
     glutDisplayFunc(on_display);
     glutReshapeFunc(on_reshape);
@@ -72,29 +75,38 @@ static void on_display(void){
     /* Clear buffers */ 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
+    
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+    glShadeModel(GL_SMOOTH);
 
     /* Initialize Modlview and LookAt */
-
+    
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
+        
+    if(lightSwitch){
+        GLfloat light_position[] = {100,0,0,1};
+        glLightfv(GL_LIGHT0 , GL_POSITION, light_position);
+    }
     gluLookAt(100*cos(lookAngle),0,100*sin(lookAngle),0,0,0,0,1,0);
     
+    
+    /* Seting up light */
+    setUpLight();
+    
+    
+    
+    /* TODO: make seperate file for field , setup light*/
     /* Primitive field */
     glPushMatrix();
-        glColor3f(0.8,0.4,0);
         glTranslatef(10,-38,0);
         glRotatef(89,1,0,0);
         glScalef(2.5,2.5,0.001);
         glutSolidCube(70);
     glPopMatrix();
     
-    
-    glPushMatrix();
-        glTranslatef(-45,10,0);
-        glScalef(10,1,1);
-        glutSolidCube(1);
-    glPopMatrix();
-    
+
     
     /* Basketball */
     draw_ball(x_curr , y_curr ,rotation_speed);
@@ -142,7 +154,6 @@ static void on_timer(int value){
     if(y_curr <= -40){
         on_restart();
     }
-    
     
     glutPostRedisplay();
     
@@ -200,6 +211,11 @@ static void on_keyboard(unsigned char key, int mouse_x, int mouse_y ){
             lookAngle -= (5 * PI/180);
             glutPostRedisplay();
             break;
+        case 'l':
+        case 'L':
+            lightSwitch = lightSwitch? 0 : 1;  
+            glutPostRedisplay();
+            break;
         case 27:
             exit(0);
             break;
@@ -230,4 +246,22 @@ static void on_mouse(int button, int state,int x, int y){
 
             
     }
+}
+
+static void setUpLight(void){
+    
+     /* Seting up light */
+    
+    GLfloat ambient_light[] = {0.1,0.1,0.1};
+    GLfloat difuse_light[] = {0.7,0.7,0.7};
+    GLfloat specular_light[] = {0.7,0.7,0.7};
+    
+    if(!lightSwitch){
+        GLfloat light_position[] = {0,0,70,0};
+        glLightfv(GL_LIGHT0 , GL_POSITION, light_position);
+    }
+    
+    glLightfv(GL_LIGHT0 , GL_AMBIENT, ambient_light);
+    glLightfv(GL_LIGHT0 , GL_DIFFUSE, difuse_light);
+    glLightfv(GL_LIGHT0 , GL_SPECULAR, specular_light);
 }

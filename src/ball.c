@@ -17,19 +17,37 @@ void initBallPosition(){
 }
 
 void draw_ball(float x_curr , float y_curr,float ball_rotation){
+
+    GLfloat BasketballAmbiental[] = {0.9,0.45,0};
+    GLfloat BasketballDiffuse[] = {1,0.5,0.1};
+    GLfloat BasketballSpecular[] = {0.4,0.4,0.4};
+    
+    
+    GLfloat BowlingballAmbiental[] = {0.6,0.6,0.6};
+    GLfloat BowlingballDiffuse[] = {0.1,0.1,0.1};
+    GLfloat BowlingballSpecular[] = {0.4,0.4,0.4};
+    
+
+    GLfloat shiness_ball = 20;
     
     glPushMatrix();
-    
+        
         if(ballType == BASKET_BALL){
-            glColor3f(1, 0.5, 0);
+            glMaterialfv(GL_FRONT,GL_AMBIENT,BasketballAmbiental);
+            glMaterialfv(GL_FRONT,GL_SPECULAR,BasketballSpecular);
+            glMaterialfv(GL_FRONT,GL_DIFFUSE,BasketballDiffuse);
+            glMaterialf(GL_FRONT,GL_SHININESS,shiness_ball);
         }
         else if(ballType == BOWLING_BALL){
-            glColor3f(0, 0, 0);
+            glMaterialfv(GL_FRONT,GL_AMBIENT,BowlingballAmbiental);
+            glMaterialfv(GL_FRONT,GL_SPECULAR,BowlingballSpecular);
+            glMaterialfv(GL_FRONT,GL_DIFFUSE,BowlingballDiffuse);
+            glMaterialf(GL_FRONT,GL_SHININESS,shiness_ball);
         }
-    
+        
         glTranslatef(x_curr, y_curr, 0);
         glRotatef(ball_rotation,0,0,1);
-        glutSolidSphere(3,10,10);
+        glutSolidSphere(3,50,50);
     glPopMatrix();
     
     
@@ -46,8 +64,8 @@ void updateBallPosition(float time,float angle){
         v0_y =  7;
     }
     else if(ballType == BOWLING_BALL){
-        v0_x = -3;
-        v0_y = 6;
+        v0_x = -2.75;
+        v0_y = 5.5;
     }
 
     

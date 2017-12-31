@@ -4,7 +4,7 @@
 #include "hoop.h"
 
 
-
+/*TODO: make material for hoop */
 void draw_hoop(void){
 
 	/* ring */
