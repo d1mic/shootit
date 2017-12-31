@@ -129,7 +129,7 @@ static void on_timer(int value){
     /* TODO: implement beter collision for rim */
     if(x_curr >= -50 && x_curr <= -40 && y_curr <= 15 && y_curr >= 8){
         angle = 90;
-        printf("(%f, %f)" , x_curr, y_curr);
+       /* printf("(%f, %f)" , x_curr, y_curr);*/
     } 
     
     

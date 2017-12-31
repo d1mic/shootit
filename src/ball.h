@@ -1,11 +1,15 @@
 #ifndef BALL_H
 #define BALL_H
 #define PI 3.141592653589793
+#define BASKET_BALL 1
+#define BOWLING_BALL 2
+#define VOLLEY_BALL 3
 #include <math.h>
 
 float x_curr;
 float y_curr;
 float ball_rotation;
+int ballType;
 float v_x;
 float v_y;
 int backboardFlag;
