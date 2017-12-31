@@ -10,6 +10,7 @@ void initBallPosition(){
 
 void draw_ball(float x_curr , float y_curr,float ball_rotation){
     
+    
     glPushMatrix();
         glTranslatef(x_curr, y_curr, 0);
         glRotatef(ball_rotation,0,0,1);
@@ -32,9 +33,8 @@ void updateBallPosition(float time,float angle){
     if(backboardFlag){
         v_x *= -1;
     }
-    
     x_curr += v_x;
-    y_curr += v_y;
+    y_curr += v_y;    
 }
 
 void setBackboardFlag(int b){

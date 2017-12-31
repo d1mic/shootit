@@ -11,6 +11,7 @@ static float rotation_speed;
 static const float g = 0.5;
 static float timePassed;
 static float angle;
+static float lookAngle;
 
 /* Callback functions */ 
 
@@ -32,19 +33,16 @@ int main(int argc , char **argv){
     glutInitWindowPosition(0,0);
     glutCreateWindow("ShootIT");
     
- 
-    
+    lookAngle = 90 * PI/180;
     
     glutDisplayFunc(on_display);
     glutReshapeFunc(on_reshape);
     glutKeyboardFunc(on_keyboard);
     glutMouseFunc(on_mouse);
     
-    srand(time(NULL));
-    
+    srand(time(NULL));    
     on_restart();
    
-    
     glClearColor(1,1,1,0);
     glEnable(GL_DEPTH_TEST);
     glutMainLoop();
@@ -79,15 +77,22 @@ static void on_display(void){
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    gluLookAt(0,0,100,0,0,0,0,1,0);
+    gluLookAt(100*cos(lookAngle),0,100*sin(lookAngle),0,0,0,0,1,0);
     
     /* Primitive field */
     glPushMatrix();
         glColor3f(0.8,0.4,0);
         glTranslatef(10,-38,0);
         glRotatef(89,1,0,0);
-        glScalef(2.4,1,0.001);
+        glScalef(2.5,2.5,0.001);
         glutSolidCube(70);
+    glPopMatrix();
+    
+    
+    glPushMatrix();
+        glTranslatef(-45,10,0);
+        glScalef(10,1,1);
+        glutSolidCube(1);
     glPopMatrix();
     
     
@@ -120,9 +125,18 @@ static void on_timer(int value){
     updateBallPosition(timePassed,angle);
     
     
-    /* check backboard collision */
     
-    if(x_curr >= -50 && x_curr <= -43 && y_curr > 3 && y_curr < 23){
+    /* TODO: implement beter collision for rim */
+    if(x_curr >= -50 && x_curr <= -40 && y_curr <= 15 && y_curr >= 8){
+        angle = 90;
+        printf("(%f, %f)" , x_curr, y_curr);
+    } 
+    
+    
+
+    
+    /* check backboard collision */
+    if(x_curr >= -55 && x_curr <= -45 && y_curr > 3 && y_curr < 25){
        setBackboardFlag(1);
     }
     if(y_curr <= -40){
@@ -143,31 +157,31 @@ static void on_keyboard(unsigned char key, int mouse_x, int mouse_y ){
     
 
     switch(key){
-        case 'a':
-        case 'A':
+        case 32:
             if(!animation_active){
                 animation_active = 1;
                 glutTimerFunc(60,on_timer,0);
             }
             break;
-        case 'S':
-        case 's':
+        case 'p':
+        case 'P':
             animation_active = 0;
             break;
         case 'R' :
         case 'r' :
             on_restart();
             break;
-        case '+':
+        case 'w':
+        case 'W':
             if(!animation_active){
-                
                 angle+=3;
                 if(angle > 89){
                     angle = 89;
                 }
             }
             break;
-        case '-':
+        case 's':
+        case 'S':
             if(!animation_active){
                 
                 angle-=3;
@@ -175,6 +189,16 @@ static void on_keyboard(unsigned char key, int mouse_x, int mouse_y ){
                     angle = -89;
                 }
             }
+            break;
+        case 'd':
+        case 'D':
+            lookAngle += (5 * PI/180);
+            glutPostRedisplay();
+            break;
+        case 'a':
+        case 'A':
+            lookAngle -= (5 * PI/180);
+            glutPostRedisplay();
             break;
         case 27:
             exit(0);
