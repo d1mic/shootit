@@ -10,9 +10,9 @@ float v_x;
 float v_y;
 int backboardFlag;
 
-void initBallPosition(float x, float y);
+void initBallPosition();
 void draw_ball(float x_curr,float y_curr, float ball_rotation);
-void updateBallPosition(float time);
+void updateBallPosition(float time,float angle);
 void setBackboardFlag(int b);
 
 

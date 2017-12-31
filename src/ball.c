@@ -3,9 +3,9 @@
 #include <GL/glut.h>
 #include "ball.h"
 
-void initBallPosition(float x, float y){
-    x_curr = x;
-    y_curr = y;
+void initBallPosition(){
+    x_curr = rand()/(float)RAND_MAX * 60.0  - 20.0;
+    y_curr = rand()/(float)RAND_MAX * 60  - 30.0;
 }
 
 void draw_ball(float x_curr , float y_curr,float ball_rotation){
@@ -20,9 +20,10 @@ void draw_ball(float x_curr , float y_curr,float ball_rotation){
     
 }
 
-void updateBallPosition(float time){
+void updateBallPosition(float time,float angle){
+    
         
-    float angleDeg = 40* PI /180.0;
+    float angleDeg = angle* PI /180.0;
     
     
     v_x =  (-4 * cos(angleDeg));
