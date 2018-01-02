@@ -36,11 +36,11 @@ void draw_floor(){
 
 
 void fieldMaterialSetup(){
-    
+
     GLfloat fieldAmbient[] = {0.913,0.71,0.51,1};
-    GLfloat fieldDiffuse[] = {0.913,0.71,0.51,1};
-    GLfloat fieldSpecular[] = {0.3,0.3,0.3,1};
-    GLfloat shiness_field = 40;
+    GLfloat fieldDiffuse[] = {0.1,0.1,0.1,1};
+    GLfloat fieldSpecular[] = {0,0,0,1};
+    GLfloat shiness_field = 20;
    
     glMaterialfv(GL_FRONT_AND_BACK,GL_AMBIENT,fieldAmbient);
     glMaterialfv(GL_FRONT_AND_BACK,GL_DIFFUSE,fieldDiffuse);
@@ -52,15 +52,22 @@ void fieldMaterialSetup(){
 
 void draw_freethrow(float r){
     
-    glEnable(GL_COLOR_MATERIAL);
+    glDisable(GL_LIGHTING);
     float i;
     glPushMatrix();
-    glColor3f(1,1,1);
+    
+    
+    glColor3f(0.9,0.9,0.9);
   
-    glTranslatef(-20,-35,0);
+    glTranslatef(-20,-36,0);
     glRotatef(90,0,1,0); 
     glScalef(3,0,3);
     
+    
+    
+    
+    
+    /*lines for freethrow */
     glBegin(GL_LINES);
             glVertex3f(-r,0,-(r+5));
             glVertex3f(-r,0,0);
@@ -68,12 +75,36 @@ void draw_freethrow(float r){
             glVertex3f(r,0,0);
     glEnd();
     
+    /*half circle for freethrow */
     glBegin(GL_LINE_LOOP);
         for(i = 0 ; i <= PI + 0.01 ; i+= PI/100){ 
             glVertex3f(r*cos(i) ,0,  r*sin(i));
         }
     glEnd();
-    glDisable(GL_COLOR_MATERIAL);
+    
+    
+    /*three point half circle */
+     glBegin(GL_LINE_STRIP);
+        for(i = 0 ; i <=  PI + 0.01 ; i+= PI/100){ 
+            glVertex3f(3.2*r*cos(i) ,0,  3.2*r*sin(i));
+        }
+    glEnd();
+    
+    /* three point lines */
+    glBegin(GL_LINES);
+            glVertex3f(-3.2*r,0,-(r+5));
+            glVertex3f(-3.2*r,0,0);
+            glVertex3f(3.2*r,0,-(r+5));
+            glVertex3f(3.2*r,0,0);
+    glEnd();
+    
+    /* draw inbound lines */
+    glBegin(GL_LINES);
+            glVertex3f(-4.1*r,0,-(r+5));
+            glVertex3f(4.1*r,0,-(r+5));
+    glEnd();
+    
+    glEnable(GL_LIGHTING);
     glPopMatrix();
 }
 

@@ -255,7 +255,7 @@ static void setUpLight(void){
     GLfloat specular_light[] = {0.8,0.8,0.8};
     
     if(!lightSwitch){
-        GLfloat light_position[] = {0,0,50,0};
+        GLfloat light_position[] = {50,0,50,0};
         glLightfv(GL_LIGHT0 , GL_POSITION, light_position);
     }
     
