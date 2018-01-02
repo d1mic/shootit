@@ -5,6 +5,8 @@
 #include <math.h>
 #include "hoop.h"
 #include "ball.h"
+#include "field.h"
+
 
 static int animation_active;
 static float rotation_speed;
@@ -78,7 +80,9 @@ static void on_display(void){
     
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
+    /*glEnable(GL_COLOR_MATERIAL);*/
     glShadeModel(GL_SMOOTH);
+    glLineWidth(5);
 
     /* Initialize Modlview and LookAt */
     
@@ -86,7 +90,7 @@ static void on_display(void){
     glLoadIdentity();
         
     if(lightSwitch){
-        GLfloat light_position[] = {100,0,0,1};
+        GLfloat light_position[] = {10,0,0,1};
         glLightfv(GL_LIGHT0 , GL_POSITION, light_position);
     }
     gluLookAt(100*cos(lookAngle),0,100*sin(lookAngle),0,0,0,0,1,0);
@@ -97,14 +101,8 @@ static void on_display(void){
     
     
     
-    /* TODO: make seperate file for field , setup light*/
     /* Primitive field */
-    glPushMatrix();
-        glTranslatef(10,-38,0);
-        glRotatef(89,1,0,0);
-        glScalef(2.5,2.5,0.001);
-        glutSolidCube(70);
-    glPopMatrix();
+    draw_field();
     
 
     
@@ -252,12 +250,12 @@ static void setUpLight(void){
     
      /* Seting up light */
     
-    GLfloat ambient_light[] = {0.1,0.1,0.1};
+    GLfloat ambient_light[] = {0.45,0.45,0.45};
     GLfloat difuse_light[] = {0.7,0.7,0.7};
-    GLfloat specular_light[] = {0.7,0.7,0.7};
+    GLfloat specular_light[] = {0.8,0.8,0.8};
     
     if(!lightSwitch){
-        GLfloat light_position[] = {0,0,70,0};
+        GLfloat light_position[] = {0,0,50,0};
         glLightfv(GL_LIGHT0 , GL_POSITION, light_position);
     }
     

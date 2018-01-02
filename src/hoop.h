@@ -3,6 +3,6 @@
 
 
 void draw_hoop(void);
-
+void hoopMaterialSetup(char *name);
 
 #endif
