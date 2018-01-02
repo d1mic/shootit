@@ -6,6 +6,7 @@
 #include "hoop.h"
 #include "ball.h"
 #include "field.h"
+#include "numbers.h"
 
 
 static int animation_active;
@@ -15,6 +16,8 @@ static float timePassed;
 static float angle;
 static float lookAngle;
 static float lightSwitch;
+static time_t now;
+
 
 /* Callback functions */ 
 
@@ -22,9 +25,9 @@ static void on_keyboard(unsigned char key, int mouse_x,int mouse_y);
 static void on_reshape(int width, int height);
 static void on_timer(int value);
 static void on_display(void);
-static void on_mouse(int button, int state,int x, int y);
 static void on_restart(void);
 static void setUpLight(void);
+static void on_timer2(int value);
 
 
 int main(int argc , char **argv){
@@ -39,17 +42,19 @@ int main(int argc , char **argv){
     
     lookAngle = 90 * PI/180;
     lightSwitch = 0;
+    now = time(NULL);
+    srand(time(NULL));    
+    on_restart();
     
     glutDisplayFunc(on_display);
     glutReshapeFunc(on_reshape);
+    glutTimerFunc(30,on_timer2,1);
     glutKeyboardFunc(on_keyboard);
-    glutMouseFunc(on_mouse);
     
-    srand(time(NULL));    
-    on_restart();
-   
+
     glClearColor(1,1,1,0);
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_LINE_SMOOTH);
     glutMainLoop();
 
     
@@ -90,21 +95,20 @@ static void on_display(void){
     glLoadIdentity();
         
     if(lightSwitch){
-        GLfloat light_position[] = {10,0,0,1};
+        GLfloat light_position[] = {70,0,0,1};
         glLightfv(GL_LIGHT0 , GL_POSITION, light_position);
     }
     gluLookAt(100*cos(lookAngle),0,100*sin(lookAngle),0,0,0,0,1,0);
     
-    
+
     /* Seting up light */
     setUpLight();
     
+    /* draw time */
+    drawSemaphore(now,5);
     
-    
-    /* Primitive field */
+    /* Field */
     draw_field();
-    
-
     
     /* Basketball */
     draw_ball(x_curr , y_curr ,rotation_speed);
@@ -115,6 +119,7 @@ static void on_display(void){
         glTranslatef(-50,-10,0); 
         draw_hoop();
     glPopMatrix();
+    
 
     glutSwapBuffers();
     
@@ -230,21 +235,6 @@ static void on_restart(){
 }
 
 
-static void on_mouse(int button, int state,int x, int y){
-    switch(button){
-        case GLUT_LEFT_BUTTON:
-            if(state == GLUT_DOWN){
-              
-                glutTimerFunc(60,on_timer,0);
-
-            }
-        break;
-
-
-
-            
-    }
-}
 
 static void setUpLight(void){
     
@@ -262,4 +252,14 @@ static void setUpLight(void){
     glLightfv(GL_LIGHT0 , GL_AMBIENT, ambient_light);
     glLightfv(GL_LIGHT0 , GL_DIFFUSE, difuse_light);
     glLightfv(GL_LIGHT0 , GL_SPECULAR, specular_light);
+}
+
+
+
+static void on_timer2(int value){
+    
+    if(value != 1)
+        return;
+    glutPostRedisplay();
+    glutTimerFunc(60,on_timer2,1);
 }

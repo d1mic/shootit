@@ -17,7 +17,7 @@ void initBallPosition(){
 }
 
 void draw_ball(float x_curr , float y_curr,float ball_rotation){
-
+    
     GLfloat BasketballAmbiental[] = {0.9,0.45,0};
     GLfloat BasketballDiffuse[] = {1,0.5,0.1};
     GLfloat BasketballSpecular[] = {0.4,0.4,0.4};

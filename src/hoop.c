@@ -75,7 +75,7 @@ void hoopMaterialSetup(char *name){
     
     GLfloat tableAmbient[] = {1,1,1,1};
     GLfloat tableDiffuse[] = {0.9,0.9,0.9,1};
-    GLfloat tableSpecular[] = {1,1,1,1};
+    GLfloat tableSpecular[] = {0.8,0.8,0.8,1};
     GLfloat shiness_table = 40;
    
     GLfloat hoopAmbient[] = {0,0,0,1};
