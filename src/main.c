@@ -9,17 +9,22 @@
 #include "numbers.h"
 #include "light.h"
 
+#define TIMER_BALL 0
+#define TIMER_TIME 1
 
+
+/* flags */
+static int scoreFlag;
+static int lightSwitch;
 static int animation_active;
+
+/* data */
 static float rotation_speed;
-static const float g = 0.5;
 static float timePassed;
 static float angle;
 static float lookAngle;
-static float lightSwitch;
 static time_t initial_time;
 static int score;
-static int scoreFlag;
 
 /* Callback functions */ 
 
@@ -46,7 +51,7 @@ int main(int argc , char **argv){
     
     glutDisplayFunc(on_display);
     glutReshapeFunc(on_reshape);
-    glutTimerFunc(30,on_timer2,1);
+    glutTimerFunc(30,on_timer2,TIMER_TIME);
     glutKeyboardFunc(on_keyboard);
     
 
@@ -95,10 +100,7 @@ static void on_display(void){
     draw_field();
     draw_ball(x_curr , y_curr ,rotation_speed);
     draw_hoop();
-    
-    glTranslatef(-48,25,3);
-    glRotatef(90,0,1,0);
-    drawNumbers(score,5);
+    drawScore(score);
 
     glutSwapBuffers();
     
@@ -123,17 +125,15 @@ static void on_timer(int value){
     if(x_curr >= -50 && x_curr <= -40 && y_curr <= 15 && y_curr >= 8){
         angle = 90;
         scoreFlag = 1;
-       /* printf("(%f, %f)" , x_curr, y_curr);*/
     } 
 
     
-    /* check backboard collision */
-    if(x_curr >= -55 && x_curr <= -45 && y_curr > 3 && y_curr < 25){
+    if(checkBackboardCollision()){
        setBackboardFlag(1);
     }
-    if(y_curr <= -40){
+   
+    if(checkFloorCollision()){
         restart();
-        
         if(scoreFlag && timeUp){
             score++;
             scoreFlag = 0;
@@ -141,21 +141,20 @@ static void on_timer(int value){
     }
     
     glutPostRedisplay();
-    
     if(animation_active){
-        glutTimerFunc(60,on_timer,0);
+        glutTimerFunc(60,on_timer,TIMER_BALL);
     }
     
     
 }
 
 static void on_timer2(int value){
-    
+    /* timer for time */
     if(value != 1)
         return;
     if(timeUp){
         glutPostRedisplay();
-        glutTimerFunc(60,on_timer2,1);
+        glutTimerFunc(60,on_timer2,TIMER_TIME);
     }
 }
 static void init(){
@@ -181,7 +180,7 @@ static void on_keyboard(unsigned char key, int mouse_x, int mouse_y ){
         case 32:
             if(!animation_active){
                 animation_active = 1;
-                glutTimerFunc(60,on_timer,0);
+                glutTimerFunc(60,on_timer,TIMER_BALL);
             }
             break;
         case 'p':

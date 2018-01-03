@@ -79,3 +79,16 @@ void updateBallPosition(float time,float angle){
 void setBackboardFlag(int b){
     backboardFlag = b;
 }
+
+int checkBackboardCollision(){
+    if(x_curr >= -55 && x_curr <= -45 && y_curr > 3 && y_curr < 25)
+        return 1;
+    else 
+        return 0;
+}
+int checkFloorCollision(){
+    if(y_curr <= -40)
+        return 1;
+    else 
+        return 0;
+}

@@ -22,7 +22,8 @@ void initBallPosition();
 void draw_ball(float x_curr,float y_curr, float ball_rotation);
 void updateBallPosition(float time,float angle);
 void setBackboardFlag(int b);
-
+int checkBackboardCollision();
+int checkFloorCollision();
 
 #endif
 

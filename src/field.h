@@ -1,5 +1,10 @@
 #ifndef FIELD_H
 #define FIELD_H
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
+#include <string.h>
+#include <GL/glut.h>
 
 
 void draw_field(void);

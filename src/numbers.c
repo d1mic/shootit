@@ -207,3 +207,10 @@ void drawSemaphore(time_t start,float size){
     glPopMatrix();
 }
 
+void drawScore(int score){
+    glPushMatrix();
+        glTranslatef(-48,25,3);
+        glRotatef(90,0,1,0);
+        drawNumbers(score,5);
+    glPopMatrix();
+}

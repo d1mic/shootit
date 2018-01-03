@@ -22,7 +22,7 @@ void setUpLight(int lightSwitch){
     glLightfv(GL_LIGHT0 , GL_SPECULAR, specular_light);
 }
 
-void headLightOn(lightSwitch){
+void headLightOn(int lightSwitch){
     if(lightSwitch){
         GLfloat light_position[] = {100,0,0,1};
         glLightfv(GL_LIGHT0 , GL_POSITION, light_position);
