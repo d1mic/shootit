@@ -129,7 +129,7 @@ void drawNumbers(int number , float size){
     
     glPushMatrix();
         drawNum(number/10,size);
-        glTranslatef(4,0,0);
+        glTranslatef(size-1,0,0);
         drawNum(number%10,size);
     glPopMatrix();
 }
@@ -141,8 +141,12 @@ void drawTime(time_t start,float size){
     struct tm *info = localtime(&passed_time);
     
     int counter = 90 - 60*info->tm_min - info->tm_sec;
-    if(counter <= 0){
+    if(counter < 0){
+        timeUp = 0;
         counter = 0;
+    }
+    else{
+        timeUp = 1;
     }
     
     drawNumbers(counter,size);
@@ -168,7 +172,6 @@ void drawSemaphore(time_t start,float size){
           glScalef(1,0.6,1);
           glutSolidCube(4*size-1);
         glPopMatrix();
-        
         
         
         /* left timer */
@@ -203,3 +206,4 @@ void drawSemaphore(time_t start,float size){
     
     glPopMatrix();
 }
+

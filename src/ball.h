@@ -5,6 +5,10 @@
 #define BOWLING_BALL 2
 #define VOLLEY_BALL 3
 #include <math.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <GL/glut.h>
 
 float x_curr;
 float y_curr;

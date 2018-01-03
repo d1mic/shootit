@@ -1,13 +1,12 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <GL/glut.h>
 #include "hoop.h"
 
 
 void draw_hoop(void){
+    glPushMatrix();
     
-
+    /* set hoop position */
+    glTranslatef(-50,-10,0);
+    
 	/* ring */
 	glPushMatrix();
         hoopMaterialSetup("ring");
@@ -17,7 +16,7 @@ void draw_hoop(void){
         glutSolidTorus(0.5,5,10,10);
     glPopMatrix();
 
-    /* tabla */
+    /* table */
     glPushMatrix();
     
         hoopMaterialSetup("table");
@@ -67,7 +66,7 @@ void draw_hoop(void){
         glutSolidCube(1);
     glPopMatrix();
 
-
+    glPopMatrix();
 }
 
 void hoopMaterialSetup(char *name){

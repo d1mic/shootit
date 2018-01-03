@@ -1,6 +1,3 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <GL/glut.h>
 #include "ball.h"
 
 void initBallPosition(){

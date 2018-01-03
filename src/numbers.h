@@ -7,7 +7,7 @@
 #include <time.h>
 #include <math.h>
 
-
+int timeUp;
 
 void drawNum(int number, float size);
 void drawNumbers(int number , float size);
