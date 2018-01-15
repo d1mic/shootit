@@ -46,7 +46,8 @@ Player can see the field from all angles and change the lighting.
 | `a` `s` | Changing the camera location |
 | `w` `a` | Changing the angle of the shot |
 | `j` `k` | Increasing/Decreasing the strength of the shot |
-| `l` | Turn on head lighting |
+| `l` | Turn on/off head lighting |
+| `h` | Turn on/off hard mode |
 | `space` | Shoot the ball |
 | `ESC` | Exit |
 
