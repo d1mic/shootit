@@ -1,6 +1,6 @@
 #include "hoop.h"
 
-
+/* Function for drawing the hoop */
 void draw_hoop(void){
     glPushMatrix();
     
@@ -69,6 +69,7 @@ void draw_hoop(void){
     glPopMatrix();
 }
 
+/* Setup hoop material */
 void hoopMaterialSetup(char *name){
     
     

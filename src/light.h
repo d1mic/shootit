@@ -7,6 +7,8 @@
 #include <time.h>
 #include <math.h>
 
+/* Light functions */
 void setUpLight(int lightSwitch);
 void headLightOn(int lightSwitch);
+
 #endif

@@ -1,9 +1,8 @@
 #include "light.h"
 
-
+/* Seting up light */
 void setUpLight(int lightSwitch){
     
-     /* Seting up light */
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
     glShadeModel(GL_SMOOTH);
@@ -22,6 +21,7 @@ void setUpLight(int lightSwitch){
     glLightfv(GL_LIGHT0 , GL_SPECULAR, specular_light);
 }
 
+/* Function for turning headlight on */
 void headLightOn(int lightSwitch){
     if(lightSwitch){
         GLfloat light_position[] = {100,0,0,1};

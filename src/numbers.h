@@ -7,8 +7,10 @@
 #include <time.h>
 #include <math.h>
 
+/* End of game flag */
 int timeUp;
 
+/* Semaphore functions */
 void drawNum(int number, float size);
 void drawNumbers(int number , float size);
 void drawTime(time_t start,float size);

@@ -5,7 +5,7 @@
 #include <string.h>
 #include <GL/glut.h>
 
-
+/* Hoop functions */
 void draw_hoop(void);
 void hoopMaterialSetup(char *name);
 

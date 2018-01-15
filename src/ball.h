@@ -10,6 +10,7 @@
 #include <string.h>
 #include <GL/glut.h>
 
+/* ball data */
 float x_curr;
 float y_curr;
 int ballType;
@@ -17,6 +18,7 @@ float v_x;
 float v_y;
 int backboardFlag;
 
+/* ball functions */
 void initBallPosition();
 void draw_ball(float x_curr,float y_curr, float ball_rotation);
 void updateBallPosition(float time,float angle,float ball_strength);

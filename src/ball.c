@@ -1,5 +1,6 @@
 #include "ball.h"
 
+/* Intialize new random position of the ball on the field and random ball type */
 void initBallPosition(){
     
     if( rand()/(float)RAND_MAX <= 0.66){
@@ -14,6 +15,7 @@ void initBallPosition(){
     
 }
 
+/* Draw the ball and set up material for ball */
 void draw_ball(float x_curr , float y_curr,float ball_rotation){
     
     GLfloat BasketballAmbiental[] = {0.9,0.45,0};
@@ -51,6 +53,7 @@ void draw_ball(float x_curr , float y_curr,float ball_rotation){
     
 }
 
+/* Ball movement  */
 void updateBallPosition(float time,float angle, float ball_strength){
     
         
@@ -77,23 +80,27 @@ void updateBallPosition(float time,float angle, float ball_strength){
     y_curr += v_y;    
 }
 
+/* Setting up flag for colliding with the backboard */
 void setBackboardFlag(int b){
     backboardFlag = b;
 }
 
+/* Checking collision with the backboard */
 int checkBackboardCollision(){
     if(x_curr >= -55 && x_curr <= -45 && y_curr > 3 && y_curr < 25)
         return 1;
     else 
         return 0;
 }
+
+/* Checking collision with the floor */
 int checkFloorCollision(){
     if(y_curr <= -40)
         return 1;
     else 
         return 0;
 }
-
+/* Drawing shot assistance balls, depending on angle and strength of the shot */
 void drawShootAssistance(float ball_strength, float angle){
     glPushMatrix();
     
@@ -112,8 +119,6 @@ void drawShootAssistance(float ball_strength, float angle){
         glRotatef(90-angle,0,0,1);
         glTranslatef(0,5,0);
         glPushMatrix();
-            /*printf("(%f , %d ) \n",ball_strength,(int)(ball_strength*10 -5)/2);*/
-            
             int shadowNum = (int)(ball_strength*10 -5)/2;
             glutSolidSphere(1,50,50);
             

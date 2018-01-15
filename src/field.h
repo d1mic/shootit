@@ -6,7 +6,7 @@
 #include <string.h>
 #include <GL/glut.h>
 
-
+/* Field functions */
 void draw_field(void);
 void fieldMaterialSetup();
 void draw_lines(float r);

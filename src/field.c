@@ -3,6 +3,7 @@
 
 #define PI 3.141592653589793
 
+/* Draw the whole field */
 void draw_field(void){
     
     glPushMatrix();
@@ -12,7 +13,7 @@ void draw_field(void){
 }
 
 
-/* floor drawing */
+/* Floor drawing */
 void draw_floor(void){
     glPushMatrix();
         fieldMaterialSetup();
@@ -23,7 +24,7 @@ void draw_floor(void){
     glPopMatrix();
 }
 
-/* seting up field material */
+/* Seting up field material */
 void fieldMaterialSetup(){
 
     GLfloat fieldAmbient[] = {0.913,0.71,0.51,1};
@@ -38,7 +39,7 @@ void fieldMaterialSetup(){
         
     
 }
-
+/* Drawing lines on the field */
 void draw_lines(float r){
     
 glDisable(GL_LIGHTING);

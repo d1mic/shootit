@@ -1,6 +1,6 @@
 #include "numbers.h"
 
-
+/* Function for drawing a single number */
 void drawNum(int number, float size){
     
     glEnable(GL_COLOR_MATERIAL);
@@ -111,7 +111,7 @@ void drawNum(int number, float size){
     glDisable(GL_COLOR_MATERIAL);
     
 }
-/* too slow 
+/* Function for drawing any number - too slow, but may be useful in the future
 void drawNumbers(int number , float size){
     
     glPushMatrix();
@@ -125,6 +125,8 @@ void drawNumbers(int number , float size){
     glPopMatrix();
 }
 */
+
+/* Function for drawing number between 0 - 99 */
 void drawNumbers(int number , float size){
     
     glPushMatrix();
@@ -134,6 +136,7 @@ void drawNumbers(int number , float size){
     glPopMatrix();
 }
 
+/* Function for drawing passed time from the beggining of the game */
 void drawTime(time_t start,float size){
     
     time_t current_time = time(NULL);
@@ -153,7 +156,7 @@ void drawTime(time_t start,float size){
     
     
 }
-
+/* Function for drawing a cube semaphor with a timer on all four sides */
 void drawSemaphore(time_t start,float size){
     glPushMatrix();
         
@@ -207,6 +210,7 @@ void drawSemaphore(time_t start,float size){
     glPopMatrix();
 }
 
+/* Function for drawing score semaphore */
 void drawScore(int score){
     glPushMatrix();
         glTranslatef(-48,25,3);
