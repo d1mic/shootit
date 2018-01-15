@@ -11,27 +11,32 @@
 
 #define TIMER_BALL 0
 #define TIMER_TIME 1
+#define TIMER_STRENGTH 2
 
 
 /* flags */
 static int scoreFlag;
 static int lightSwitch;
 static int animation_active;
+static int hardModeFlag;
 
 /* data */
 static float rotation_speed;
 static float timePassed;
 static float angle;
+static float ball_strength;
 static float lookAngle;
 static time_t initial_time;
 static int score;
+
 
 /* Callback functions */ 
 
 static void on_keyboard(unsigned char key, int mouse_x,int mouse_y);
 static void on_reshape(int width, int height);
 static void on_timer(int value);
-static void on_timer2(int value);
+static void on_timer_time(int value);
+static void on_timer_strength(int value);
 static void on_display(void);
 static void init(void);
 static void restart(void);
@@ -51,7 +56,7 @@ int main(int argc , char **argv){
     
     glutDisplayFunc(on_display);
     glutReshapeFunc(on_reshape);
-    glutTimerFunc(30,on_timer2,TIMER_TIME);
+    glutTimerFunc(30,on_timer_time,TIMER_TIME);
     glutKeyboardFunc(on_keyboard);
     
 
@@ -100,7 +105,11 @@ static void on_display(void){
     draw_field();
     draw_ball(x_curr , y_curr ,rotation_speed);
     draw_hoop();
-    drawScore(score);
+    drawScore(score);    
+    if(!animation_active && !hardModeFlag){
+        drawShootAssistance(ball_strength,angle);
+    }
+
 
     glutSwapBuffers();
     
@@ -117,7 +126,7 @@ static void on_timer(int value){
     /* update coordinates of ball */
     rotation_speed += 30;
     timePassed += 0.65;
-    updateBallPosition(timePassed,angle);
+    updateBallPosition(timePassed,angle,ball_strength);
     
     
     
@@ -148,13 +157,22 @@ static void on_timer(int value){
     
 }
 
-static void on_timer2(int value){
+static void on_timer_time(int value){
     /* timer for time */
     if(value != 1)
         return;
     if(timeUp){
         glutPostRedisplay();
-        glutTimerFunc(60,on_timer2,TIMER_TIME);
+        glutTimerFunc(60,on_timer_time,TIMER_TIME);
+    }
+}
+static void on_timer_strength(int value){
+    /* timer for time */
+    if(value != 3)
+        return;
+    if(!animation_active){
+        glutPostRedisplay();
+        glutTimerFunc(60,on_timer_strength,TIMER_STRENGTH);
     }
 }
 static void init(){
@@ -162,6 +180,7 @@ static void init(){
     scoreFlag =0;
     lookAngle = 90 * PI/180;
     lightSwitch = 0;
+    hardModeFlag = 0;
     initial_time = time(NULL);
     srand(time(NULL));    
     restart();
@@ -171,14 +190,20 @@ static void restart(){
     timePassed = 0;
     angle = 45;
     setBackboardFlag(0);
+    ball_strength = 1;
     initBallPosition();
 }
+
+
+
+
+
 static void on_keyboard(unsigned char key, int mouse_x, int mouse_y ){
     
 
     switch(key){
         case 32:
-            if(!animation_active){
+            if(!animation_active && timeUp){
                 animation_active = 1;
                 glutTimerFunc(60,on_timer,TIMER_BALL);
             }
@@ -186,10 +211,6 @@ static void on_keyboard(unsigned char key, int mouse_x, int mouse_y ){
         case 'p':
         case 'P':
             animation_active = 0;
-            break;
-        case 'R' :
-        case 'r' :
-            restart();
             break;
         case 'w':
         case 'W':
@@ -210,13 +231,13 @@ static void on_keyboard(unsigned char key, int mouse_x, int mouse_y ){
                 }
             }
             break;
-        case 'd':
-        case 'D':
+        case 'a':
+        case 'A':
             lookAngle += (5 * PI/180);
             glutPostRedisplay();
             break;
-        case 'a':
-        case 'A':
+        case 'd':
+        case 'D':
             lookAngle -= (5 * PI/180);
             glutPostRedisplay();
             break;
@@ -225,6 +246,33 @@ static void on_keyboard(unsigned char key, int mouse_x, int mouse_y ){
             lightSwitch = lightSwitch? 0 : 1;  
             glutPostRedisplay();
             break;
+        case 'j':
+        case 'J':
+            if(!animation_active && timeUp){
+                ball_strength += 0.015;
+                if(ball_strength > 1.5){
+                    ball_strength = 1.5;
+                }
+                glutTimerFunc(60,on_timer_strength,TIMER_STRENGTH);
+            }
+            break;
+        case 'k':
+        case 'K':
+             if(!animation_active && timeUp){
+                ball_strength -= 0.015;
+                
+                if(ball_strength < 0.5){
+                    ball_strength = 0.5;
+                }
+                
+                glutTimerFunc(60,on_timer_strength,TIMER_STRENGTH);
+            }
+            break;
+        case 'h':
+        case 'H':
+            hardModeFlag = !hardModeFlag;
+            break;
+            
         case 27:
             exit(0);
             break;

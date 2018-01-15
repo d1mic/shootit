@@ -12,7 +12,6 @@
 
 float x_curr;
 float y_curr;
-float ball_rotation;
 int ballType;
 float v_x;
 float v_y;
@@ -20,10 +19,11 @@ int backboardFlag;
 
 void initBallPosition();
 void draw_ball(float x_curr,float y_curr, float ball_rotation);
-void updateBallPosition(float time,float angle);
+void updateBallPosition(float time,float angle,float ball_strength);
 void setBackboardFlag(int b);
 int checkBackboardCollision();
 int checkFloorCollision();
+void drawShootAssistance(float ball_strength, float angle);
 
 #endif
 
