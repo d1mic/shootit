@@ -55,6 +55,7 @@ Player can see the field from all angles and change the lighting.
 
 ## :wrench: Built using
 * [OpenGl and Glut](https://www.opengl.org/resources/libraries/glut/)
+* [LogoMakr](http://logomakr.com) for making the logo
 
 ## :mortar_board: Author
 
