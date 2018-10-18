@@ -2,7 +2,7 @@
 ShootIT is a basketball game developed using [OpenGl and Glut](https://www.opengl.org/resources/libraries/glut/) library written in C.
 
 ShootIt is developed as a project for Computer graphics course at the [Faculty of Mathematics](http://www.matf.bg.ac.rs/eng/) in Belgrade, Serbia.
-![logo](https://github.com/MATF-RG17/RG049-shootit/blob/master/screenshots/logo_1.png)
+![logo](https://github.com/dimaria95/shootit/blob/master/screenshots/logo_1.png)
 
 ## :computer: Getting Started
 
@@ -51,7 +51,7 @@ Player can see the field from all angles and change the lighting.
 | `space` | Shoot the ball |
 | `ESC` | Exit |
 
-![gameplay](https://github.com/MATF-RG17/RG049-shootit/blob/master/screenshots/Screen%20Shot%202018-01-15%20at%206.20.43%20PM.png)
+![gameplay](https://github.com/dimaria95/shootit/blob/master/screenshots/Screen%20Shot%202018-01-15%20at%206.20.43%20PM.png)
 
 ## :wrench: Built using
 * [OpenGl and Glut](https://www.opengl.org/resources/libraries/glut/)
